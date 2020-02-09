@@ -36,7 +36,6 @@ The homepage of your application should have:
 
 Allow the user to click on an attendee in the `Current Attendees` list to edit the attendee's information.
 
-
 ## Available API Routes
 
 For more, check out the json-server documentation!
