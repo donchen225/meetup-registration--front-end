@@ -1,70 +1,70 @@
 import React from 'react';
+import axios from 'axios';
 import AttendeesList from './AttendeesList.jsx';
-import RegisterAttendeeForm from './RegisterAttendeeForm.jsx';
-
-// const dummyData = [
-//   beginner: [{firstName: 'Don', lastName: 'Chen', email: "dochen225@", shirtSize: 'M', experienceLevel: 'beginner'}],
-//   intermediate: [{firstName: 'dsajdhkd', lastName: 'etiek', email: 'shhfvgdk@', shirtSize: 'L', experienceLevel: 'intermediate'}],
-//   expert: [{firstName: '265e73', lastName: '3682992', email: '253526@', shirtSize: 'S', experienceLevel: 'expert'}]
-// ]
+import Form from './Form.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentAttendeesList: [
-        beginner: [],
-        intermediate: [],
-        expert: []
-      ],
+      attendeesList: [],
       firstNameInput: '',
       lastNameInput: '',
       emailInput: '',
       shirtSizeInput: '',
-      experienceInput: ''
+      skillLevelInput: ''
     }
-    this.handleInput = this.handleInput.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.getAttendeesList = this.getAttendeesList.bind(this);
-    // this.updateAttendeesList = this.updateAttendeesList.bind(this);
   }
 
-  handleInput(event) {
+  componentDidMount() {
+    this.getAttendeesList();
+  }
+
+  handleChange(event) {
     this.setState({
-      [name]: event.target.value
+      [event.target.name]: event.target.value
     })
   }
 
   handleSubmit(event) {
-    // event.preventdefault();
-    const attendeeObject = {
+    event.preventDefault();
+    this.addAttendee({
       firstName: this.state.firstNameInput,
       lastName: this.state.lastNameInput,
       email: this.state.emailInput,
-      shirtSize: this.state.shirtSizeInput,
-      experienceLevel: this.state.experienceInput
-    }
-    const experienceLevel = attendeeObject.experienceLevel;
-    this.setState(prevState => {
-      currentAttendeesList: prevState.currentAttendeesList[experienceLevel].push(attendeeObject)
-    })
+      shirt: this.state.shirtSizeInput,
+      skillLevel: this.state.skillLevelInput
+    });
   }
 
-  // getAttendeesList() {
+  addAttendee(data) {
+    axios.post('/attendees', data)
+      .then(this.getAttendeesList)
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 
-  // }
-
-  // updateAttendeesList()  {
-
-  // }
+  getAttendeesList() {
+    axios.get('/attendees')
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          attendeesList: response.data
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 
   render() {
     return (
-      <div>
-        <AttendeesList name="beginner" attendees={this.state.currentAttendeesList.beginner}/>
-        <AttendeesList name="intermediate" attendees={this.state.currentAttendeesList.intermediate}/>
-        <AttendeesList name="expert" attendees={this.state.currentAttendeesList.expert}/>
-        <RegisterAttendeeForm handleInput={this.handleInput} handleSubmit={this.handleSubmit} getAttendeesList={this.getAttendeesList}/>
+      <div className="main">
+        <Form handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+        <AttendeesList attendees={this.state.attendeesList}/>
       </div>
     )
   }
