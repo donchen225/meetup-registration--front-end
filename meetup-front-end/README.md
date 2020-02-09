@@ -1,23 +1,24 @@
 # Meetup Registration - Front End
 Build a the front-end of a single page app that takes that allows a meetup organizer to register attendees for a JS meetup and keep track of who is already registered.
 
-**Note: This prompt is front end only!** The back end is provided for you by json-server. You don't need to understand much about json-server to complete this prompt, so don't waste time! 
+**Note: This prompt is front end only!** The back end is provided for you by json-server. You don't need to understand much about json-server to complete this prompt, so don't waste time!
 
 ## Setup
 
-- [ ] `npm install`
-- [ ] `npm run react-dev` to run the pre-configured webpack
-- [ ] `npm start` to run the json-server
+- [x] `npm install`
+- [x] `npm run react-dev` to run the pre-configured webpack
+- [x] `npm start` to run the json-server
 
 ## Requirements
 
-Using React, build your client app inside the src folder provided. A static HTML version of this app exists inside of `public/index.html`, which you will replace with a React app. 
+Using React, build your client app inside the src folder provided. A static HTML version of this app exists inside of `public/index.html`, which you will replace with a React app.
 
 **Note: Your entire application should not be contained in one component - break up your application into reasonable components.**
 
 The homepage of your application should have:
 
 - A `Current Attendees` list, which should include first + last names of attendes, grouped by experience level (beginner, intermediate, expert)
+
 
 - A `Register Attendee` form, which should include fields for
     - First name
