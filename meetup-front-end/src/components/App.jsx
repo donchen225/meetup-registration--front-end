@@ -8,51 +8,22 @@ class App extends React.Component {
     super(props);
     this.state = {
       attendeesList: [],
-      firstNameInput: '',
-      lastNameInput: '',
-      emailInput: '',
-      shirtSizeInput: '',
-      skillLevelInput: ''
+      currentId: 0,
+      /*clickedAttendee*/
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    this.getAttendeesList();
+    this.fetchData();
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    this.addAttendee({
-      firstName: this.state.firstNameInput,
-      lastName: this.state.lastNameInput,
-      email: this.state.emailInput,
-      shirt: this.state.shirtSizeInput,
-      skillLevel: this.state.skillLevelInput
-    });
-  }
-
-  addAttendee(data) {
-    axios.post('/attendees', data)
-      .then(this.getAttendeesList)
-      .catch((error) => {
-        console.log(error);
-      })
-  }
-
-  getAttendeesList() {
+  fetchData() {
     axios.get('/attendees')
       .then((response) => {
         console.log(response.data);
         this.setState({
-          attendeesList: response.data
+          attendeesList: response.data,
+          currentId: response.data[response.data.length-1].id
         })
       })
       .catch((error) => {
@@ -60,15 +31,40 @@ class App extends React.Component {
       })
   }
 
+  addAttendee(data) {
+    axios.post('/attendees', data)
+      .then((response) => {
+        this.fetchData()
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
+  // handleClickOnAttendee(event) {
+  //   axios.get('/attendees', {
+  //       params: {
+  //         id: event.target.key
+  //       }
+  //     })
+  //     .then((response) => {
+  //       this.setState({
+  //         clickedAttendee: response.data
+  //       })
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
+  // }
+
   render() {
     return (
       <div className="main">
-        <Form handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+        <Form addAttendee = {this.addAttendee.bind(this)} currentId={this.state.currentId}/>
         <AttendeesList attendees={this.state.attendeesList}/>
       </div>
     )
   }
-
 }
 
 export default App;

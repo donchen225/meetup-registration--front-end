@@ -1,11 +1,9 @@
 import React from 'react';
 
-const Attendee = ({attendee}) => {
-  return (
-    <div>
-      {attendee.firstName} {attendee.lastName}
-    </div>
-  )
-}
+const Attendee = ({attendee}) => (
+  <div /*onClick={handleClickOnAttendee}*/>
+    {attendee.firstName} {attendee.lastName}
+  </div>
+)
 
 export default Attendee;
