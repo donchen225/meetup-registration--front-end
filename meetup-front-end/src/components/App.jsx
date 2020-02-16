@@ -9,7 +9,7 @@ class App extends React.Component {
     this.state = {
       attendeesList: [],
       currentId: 0,
-      /*clickedAttendee*/
+      clickedAttendee: {}
     }
   }
 
@@ -34,34 +34,40 @@ class App extends React.Component {
   addAttendee(data) {
     axios.post('/attendees', data)
       .then((response) => {
-        this.fetchData()
+        this.fetchData();
       })
       .catch((error) => {
         console.log(error);
       })
   }
 
-  // handleClickOnAttendee(event) {
-  //   axios.get('/attendees', {
-  //       params: {
-  //         id: event.target.key
-  //       }
-  //     })
-  //     .then((response) => {
-  //       this.setState({
-  //         clickedAttendee: response.data
-  //       })
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     })
-  // }
+  updateAttendee(data) {
+    axios.patch('/attendees', data)
+      .then((response) => {
+        this.fetchData();
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
+  handleClickOnAttendee(attendee) {
+    this.setState({
+      clickedAttendee: attendee
+    })
+  }
 
   render() {
     return (
       <div className="main">
-        <Form addAttendee = {this.addAttendee.bind(this)} currentId={this.state.currentId}/>
-        <AttendeesList attendees={this.state.attendeesList}/>
+        <Form
+          addAttendee = {this.addAttendee.bind(this)}
+          updateAttendee = {this.updateAttendee.bind(this)}
+          currentId={this.state.currentId}
+          clickedAttendee={this.state.clickedAttendee}/>
+        <AttendeesList
+          attendees={this.state.attendeesList}
+          handleClickOnAttendee={this.handleClickOnAttendee.bind(this)}/>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Attendee = ({attendee}) => (
-  <div /*onClick={handleClickOnAttendee}*/>
+const Attendee = ({attendee, handleClickOnAttendee}) => (
+  <div onClick={() => {handleClickOnAttendee(attendee)}}>
     {attendee.firstName} {attendee.lastName}
   </div>
 )
