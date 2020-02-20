@@ -9,7 +9,12 @@ class App extends React.Component {
     this.state = {
       attendeesList: [],
       currentId: 0,
-      clickedAttendee: {}
+      firstNameInput: '',
+      lastNameInput: '',
+      emailInput: '',
+      shirtSizeInput: '',
+      skillLevelInput: '',
+      buttonText: 'REGISTER'
     }
   }
 
@@ -17,43 +22,86 @@ class App extends React.Component {
     this.fetchData();
   }
 
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const attendeeData = {
+      firstName: this.state.firstNameInput,
+      lastName: this.state.lastNameInput,
+      email: this.state.emailInput,
+      shirt: this.state.shirtSizeInput,
+      skillLevel: this.state.skillLevelInput
+    }
+    if (this.state.buttonText === 'UPDATE') {
+      this.updateAttendee(attendeeData);
+    }
+    else if (this.state.buttonText === 'REGISTER') {
+      this.addAttendee(attendeeData);
+    }
+    this.setState({
+      firstNameInput: '',
+      lastNameInput: '',
+      emailInput: '',
+      shirtSizeInput: '',
+      skillLevelInput: '',
+      buttonText: 'REGISTER'
+    })
+  }
+
   fetchData() {
     axios.get('/attendees')
       .then((response) => {
-        console.log(response.data);
+        console.log('data has been successfully retrieved');
         this.setState({
           attendeesList: response.data,
           currentId: response.data[response.data.length-1].id
         })
       })
       .catch((error) => {
-        console.log(error);
+        console.log('get request is unsuccessful');
       })
   }
 
   addAttendee(data) {
+    console.log('added data', data);
     axios.post('/attendees', data)
       .then((response) => {
+        console.log('data has been successfully added')
         this.fetchData();
       })
       .catch((error) => {
-        console.log(error);
+        console.log('post request is unsuccessful')
       })
   }
 
   updateAttendee(data) {
-    axios.patch('/attendees', data)
+    axios.patch('/attendees', {
+        params: {
+          id: data.id
+        }}, data)
       .then((response) => {
+        console.log('data has been successfully updated');
         this.fetchData();
       })
       .catch((error) => {
-        console.log(error);
+        console.log('patch request is unsuccessful')
       })
   }
 
   handleClickOnAttendee(attendee) {
     this.setState({
-      clickedAttendee: attendee
+      currentId: attendee.id,
+      firstNameInput: attendee.firstName,
+      lastNameInput: attendee.lastName,
+      emailInput: attendee.email,
+      shirtSizeInput: attendee.shirt,
+      skillLevelInput: attendee.skillLevel,
+      buttonText: 'UPDATE'
     })
   }
 
@@ -61,13 +109,19 @@ class App extends React.Component {
     return (
       <div className="main">
         <Form
-          addAttendee = {this.addAttendee.bind(this)}
-          updateAttendee = {this.updateAttendee.bind(this)}
-          currentId={this.state.currentId}
-          clickedAttendee={this.state.clickedAttendee}/>
+          handleChange = {this.handleChange.bind(this)}
+          handleSubmit = {this.handleSubmit.bind(this)}
+          firstName = {this.state.firstNameInput}
+          lastName = {this.state.lastNameInput}
+          email = {this.state.emailInput}
+          shirt = {this.state.shirtSizeInput}
+          skillLevel = {this.state.skillLevelInput}
+          buttonText = {this.state.buttonText}
+          />
         <AttendeesList
-          attendees={this.state.attendeesList}
-          handleClickOnAttendee={this.handleClickOnAttendee.bind(this)}/>
+          attendees = {this.state.attendeesList}
+          handleClickOnAttendee = {this.handleClickOnAttendee.bind(this)}
+        />
       </div>
     )
   }

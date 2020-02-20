@@ -5,7 +5,7 @@ const AttendeesList = ({attendees, handleClickOnAttendee}) => (
     <div className="attendees">
       <h2>Attendees</h2>
 
-      <h3>Beginner</h3>
+      <h3> Beginner </h3>
       {attendees.map((attendee, i) => {
         if (attendee.skillLevel === 'beginner') {
           return <Attendee attendee={attendee}
