@@ -80,10 +80,7 @@ class App extends React.Component {
   }
 
   updateAttendee(data) {
-    axios.patch('/attendees', {
-        params: {
-          id: data.id
-        }}, data)
+    axios.patch(`/attendees/${this.state.currentId}`, data)
       .then((response) => {
         console.log('data has been successfully updated');
         this.fetchData();

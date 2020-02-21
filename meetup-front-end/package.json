@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "start": "json-server db.json"
+    "start": "json-server --watch db.json"
   },
   "author": "Hack Reactor Curriculum Team",
   "license": "ISC",

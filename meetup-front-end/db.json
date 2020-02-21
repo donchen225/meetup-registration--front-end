@@ -18,11 +18,11 @@
     },
     {
       "id": 3,
-      "firstName": "Hoban",
-      "lastName": "Washburn",
-      "email": "itswash@gmail.com",
-      "shirt": "M",
-      "skillLevel": "beginner"
+      "firstName": "Hogwarts",
+      "lastName": "Wash",
+      "email": "wash@gmail.com",
+      "shirt": "XXL",
+      "skillLevel": "expert"
     },
     {
       "id": 4,
@@ -44,7 +44,7 @@
       "firstName": "Donald",
       "lastName": "Chen",
       "email": "donaldchen522@gmail.com",
-      "shirt": "",
+      "shirt": "S",
       "skillLevel": "",
       "id": 6
     }
